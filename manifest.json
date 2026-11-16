@@ -1,0 +1,35 @@
+{
+  "source": "C:\\Users\\wujun\\OneDrive\\桌面\\api-call-sequence\\API_traces_malware_detection.tar.xz",
+  "format": "jsonl.gz",
+  "record_schema": [
+    "sample_id",
+    "source_file",
+    "window_start",
+    "original_length",
+    "sequence"
+  ],
+  "settings": {
+    "sequence_length": 128,
+    "min_original_length": 128,
+    "windows_per_trace": 1,
+    "max_traces": 30000,
+    "max_output_gb": 1.5,
+    "shard_target_mib": 18,
+    "seed": 42
+  },
+  "stats": {
+    "files_seen": 30095,
+    "valid_traces": 30000,
+    "too_short": 95,
+    "unrecognized": 0,
+    "windows": 30000
+  },
+  "shards": [
+    {
+      "file": "api_part_0001.jsonl.gz",
+      "records": 30000,
+      "bytes": 3990911
+    }
+  ],
+  "total_compressed_bytes": 3990911
+}
