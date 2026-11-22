@@ -1,0 +1,63 @@
+
+name: Download WinMET Volume 1
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Git LFS
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git-lfs
+          git lfs install
+
+      - name: Download WinMET from Zenodo
+        run: |
+          curl -fL \
+            --retry 5 \
+            --retry-delay 15 \
+            --connect-timeout 60 \
+            -o /tmp/WinMET_volume_1.7z \
+            "https://zenodo.org/records/16414116/files/WinMET_volume_1.7z?download=1"
+
+      - name: Verify downloaded archive
+        run: |
+          echo "bf51181eafc8452090bb6ce9f47b6714  /tmp/WinMET_volume_1.7z" \
+            | md5sum -c -
+
+      - name: Split into 900 MiB files
+        run: |
+          mkdir -p raw
+
+          split -b 900M -d -a 3 \
+            /tmp/WinMET_volume_1.7z \
+            raw/WinMET_volume_1.7z.part_
+
+          ls -lh raw/
+
+      - name: Upload files through Git LFS
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git lfs track "raw/*.part_*"
+
+          git add .gitattributes raw/
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Add WinMET Volume 1 via Git LFS"
+            git push origin HEAD
+          else
+            echo "Files are already committed."
+          fi
