@@ -1,0 +1,17 @@
+{
+  "source_dataset": "WinMET v3",
+  "source_volume": 1,
+  "source_archive_sha256": "52b27fd57ae2bf0b914244d412cd4a622fd1233321c0e5eccea2f042f714296b",
+  "sampling": "per-family reservoir sampling",
+  "random_seed": 42,
+  "max_samples_per_family": 100,
+  "original_labeled_traces": 5992,
+  "selected_traces": 3644,
+  "number_of_families": 492,
+  "number_of_shards": 177,
+  "total_shard_bytes": 29089263,
+  "schema": {
+    "family": "AVClass family label",
+    "api_sequences": "ordered API sequences by process"
+  }
+}
